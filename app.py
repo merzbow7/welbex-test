@@ -5,7 +5,6 @@ from flask_sqlalchemy import SQLAlchemy
 
 from config import Config
 
-
 app = Flask(__name__)
 CORS(app)
 app.config.from_object(Config)
@@ -24,6 +23,8 @@ def hello_world() -> str:
 @app.route('/api/delivery')
 def delivery() -> Response:
     try:
+        if not request.args:
+            raise ValueError
         per_page = request.args.get('perPage', 5, type=int)
         current_page = request.args.get('currentPage', 1, type=int)
         query = request.args.get('query', '')
