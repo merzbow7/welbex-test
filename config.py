@@ -9,6 +9,7 @@ class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'abra-cadabra-ahalay-mohalay'
     DEBUG = os.environ.get('FLASK_PROJECT_DEBUG') or False
     TESTING = False
+    ORIGINS = os.environ.get('FLASK_ORIGINS')
 
     # sqlalchemy
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')

@@ -1,10 +1,6 @@
 const path = require('path');
 
 module.exports = {
-  outputDir: path.resolve(__dirname, '../static'),
+  outputDir: path.resolve(__dirname, '../templates'),
   assetsDir: '../static',
-  output: {
-    filename: 'index.html',
-    path: path.resolve(__dirname, '../templates'),
-  },
 };

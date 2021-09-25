@@ -34,14 +34,20 @@
         <input v-model="filterByValue" type="text" class="form-control"
                aria-label="Фильтрация таблицы">
         <button
-          @click=makeFilterQuery()
-          :disabled=isNotFilledFilter
-          class="btn btn-outline-secondary" type="button">Фильтровать
+            @click=makeFilterQuery()
+            :disabled=isNotFilledFilter
+            class="btn btn-outline-secondary" type="button">Фильтровать
         </button>
       </div>
       <div class="input-group d-flex justify-content-between input-group-text ">
         <div class="">
           {{ displayedFilter }}
+        </div>
+        <div v-if="loading" class="lds-ellipsis">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
         </div>
         <button @click=resetFilter() class="btn btn-outline-danger " type="button">
           Сбросить
@@ -132,8 +138,8 @@
           </li>
           <li v-if="hasNextPage" class="page-item">
             <button
-              @click.prevent="loadPage(currentPage=currentPage + 1)"
-              class="page-link"> {{ currentPage + 1 }}
+                @click.prevent="loadPage(currentPage=currentPage + 1)"
+                class="page-link"> {{ currentPage + 1 }}
             </button>
           </li>
           <li class="page-item" :class="{disabled: !hasNextPage}">
@@ -162,6 +168,7 @@ export default {
       filterOperand: '',
       requestError: '',
       activeColumn: '',
+      loading: false,
       filterQuery: {},
       currentPage: 1,
       prevPage: '',
@@ -181,7 +188,9 @@ export default {
   },
   methods: {
     async loadPage(pageNum) {
+      this.loading = true;
       const response = await loadTable(pageNum, this.filterQuery);
+      this.loading = false;
       window.response = response;
       this.tableData = response.data;
       this.prevPage = response.prev;
@@ -355,4 +364,69 @@ body {
     }
   }
 }
+
+.lds-ellipsis {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.lds-ellipsis div {
+  position: absolute;
+  top: 33px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #fff;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+
+.lds-ellipsis div:nth-child(1) {
+  left: 8px;
+  animation: lds-ellipsis1 0.6s infinite;
+}
+
+.lds-ellipsis div:nth-child(2) {
+  left: 8px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+
+.lds-ellipsis div:nth-child(3) {
+  left: 32px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+
+.lds-ellipsis div:nth-child(4) {
+  left: 56px;
+  animation: lds-ellipsis3 0.6s infinite;
+}
+
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
+}
+
 </style>
