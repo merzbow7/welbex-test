@@ -27,7 +27,6 @@ def delivery() -> Response:
         query = request.args.get('query', '')
     except ValueError:
         return jsonify(initial_response(request=request.full_path, error="Bad query", page=1))
-
     prepared_response = build_response(current_page, per_page, request.full_path, query)
     return jsonify(prepared_response)
 

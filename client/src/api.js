@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = new URL('/api/delivery', document.URL);
+const API_URL = 'https://welbex-test.herokuapp.com/api/delivery';
 
 export default async function loadTable(page, query) {
   const payload = {
