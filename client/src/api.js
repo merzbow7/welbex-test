@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-// const API_URL = new URL('/api/delivery', document.URL).href;
 const API_URL = '/api/delivery';
 
 export default async function loadTable(page, query) {
