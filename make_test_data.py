@@ -15,6 +15,7 @@ if __name__ == '__main__':
     delivery_table = soup.find_all('table')[4]
     table_rows = delivery_table.find_all("tr")
 
+    db.create_all()
     for tr_tag in table_rows:
         name = tr_tag.find("td", class_="name").text.split()[0]
         distance = int(tr_tag.find("td", class_="distance").text)
